@@ -1,5 +1,6 @@
 PImage Ibackground,Iblock,Iempty,Iflag,Imine,Inumbers,Iquestion,Iquestion_pressed; 
 HUD hud;
+Board board;
 
 void setup()
 {
@@ -13,6 +14,7 @@ void setup()
   Iquestion = loadImage("question.png");
   Iquestion_pressed = loadImage("question_pressed.png");
   hud = new HUD();
+  board = new Board();
   
 }
 
@@ -32,4 +34,5 @@ void update() {
 
 void render() {
  hud.render(); 
+ board.render();
 }

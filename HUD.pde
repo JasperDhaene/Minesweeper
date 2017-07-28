@@ -42,8 +42,6 @@ class HUD {
  public void render(){
    if(!gameOver && showClock){
      String stringNum  = nf(clock,3);
-     //println(num.charAt(0)*(numberWidth+gap));
-     //println(num.charAt(0) + " " +num.charAt(1) + " " +num.charAt(2) + " ");
      for(int i = 0;i < 3; i++){
        int num = int(stringNum.charAt(i)-48);
        image(Inumbers, startX+(i*numberWidth),startY,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
