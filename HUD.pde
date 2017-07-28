@@ -44,13 +44,13 @@ class HUD {
      String stringNum  = nf(clock,3);
      for(int i = 0;i < 3; i++){
        int num = int(stringNum.charAt(i)-48);
-       image(Inumbers, startX+(i*numberWidth),startY,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
+       image(INumbers, startX+(i*numberWidth),startY,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
      }
    }else{
      if(showClock) {
        for(int i = 0;i < 3; i++){
          int num = 9;
-         image(Inumbers, startX+(i*numberWidth),startY,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
+         image(INumbers, startX+(i*numberWidth),startY,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
        }
      }
    }
