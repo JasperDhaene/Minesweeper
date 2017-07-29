@@ -1,6 +1,10 @@
-PImage IBackground,IBlock,IEmpty,IFlag,IMine,INumbers,IMineNumbers,IQuestion,IQuestion_pressed,IState_BAMF; 
+PImage IBackground,IBlock,IEmpty,IFlag,IMine,INumbers,IMineNumbers,IQuestion,IQuestion_pressed,IState_BAMF,IState_GAMEOVER; 
 HUD hud;
 Board board;
+int state;
+
+public static final int STATE_NORMAL = 0;
+public static final int STATE_GAMEOVER = 1;
 
 void setup()
 {
@@ -14,10 +18,11 @@ void setup()
   IQuestion = loadImage("question.png");
   IQuestion_pressed = loadImage("question_pressed.png");
   IState_BAMF = loadImage("state_BAMF.png");
+  IState_GAMEOVER = loadImage("state_dead.png");
   IMineNumbers = loadImage("mineNumbers.png");
   hud = new HUD();
   board = new Board();
-  
+  state = STATE_NORMAL;
 }
 
 
@@ -71,4 +76,8 @@ void mouseReleased(){
    board.unflag(); 
   }
   
+}
+
+void gameOver() {
+  state = STATE_GAMEOVER;
 }

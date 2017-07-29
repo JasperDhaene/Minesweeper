@@ -50,8 +50,8 @@ public class Board
     mineNumberGap = 4;
     clickingX = -1;
     clickingY = -1;
-    flagsLeft = 5;
-    amountOfMines = 20;
+    flagsLeft = 15;
+    amountOfMines = 15;
     
     generateBoard();
   }
@@ -59,19 +59,29 @@ public class Board
   public void render() {
     for( int i = 0; i< col; i++) {
       for( int j = 0; j< row; j++) {
-        switch(boardState[i][j]){
-          case FREE: image(IBlock, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
-          case CLICKING: image(IEmpty, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
-          case CLICKED: 
-            if(board[i][j] > 0 && board[i][j] < 9) {
-              int number = board[i][j] - 1;
-              image(IMineNumbers, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight, number * (imgWidth + mineNumberGap),0, (number * (imgWidth+mineNumberGap)) + imgWidth , imgHeight ); 
-            } else {
-              println(board[i][j]);
-              image(imageArray[board[i][j]], startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight);
-            } break;  
-          case FLAGGING: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
-          case FLAGGED: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+        if(state == STATE_NORMAL){
+          switch(boardState[i][j]){
+            case FREE: image(IBlock, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+            case CLICKING: image(IEmpty, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+            case CLICKED: 
+              if(board[i][j] > 0 && board[i][j] < 9) {
+                int number = board[i][j] - 1;
+                image(IMineNumbers, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight, number * (imgWidth + mineNumberGap),0, (number * (imgWidth+mineNumberGap)) + imgWidth , imgHeight ); 
+              } else {
+                println(board[i][j]);
+                image(imageArray[board[i][j]], startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight);
+              } break;  
+            case FLAGGING: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+            case FLAGGED: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+          }
+        } else {
+          if(board[i][j] > 0 && board[i][j] < 9) {
+            int number = board[i][j] - 1;
+            image(IMineNumbers, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight, number * (imgWidth + mineNumberGap),0, (number * (imgWidth+mineNumberGap)) + imgWidth , imgHeight ); 
+          } else {
+            println(board[i][j]);
+            image(imageArray[board[i][j]], startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight);
+          }
         }
       }
     }
@@ -89,7 +99,7 @@ public class Board
     
     for( int i = 0; i< col; i++) {
       for( int j = 0; j< row; j++) {
-        if( random(0, 10) > 8 && minesLeft > 0){
+        if( random(0, 100) > 95 && minesLeft > 0){
          minesLeft --; 
          board[i][j] = MINE;
          //println(i + " " + j);
@@ -118,6 +128,9 @@ public class Board
   public void clicked(){
     if(isValidClick(clickingX,clickingY)){
       boardState[clickingX][clickingY] = CLICKED;
+      if(board[clickingX][clickingY] == MINE){
+        gameOver();  
+      }
     }
   }
   

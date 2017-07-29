@@ -6,7 +6,7 @@ class HUD {
  private int numberWidth,numberHeight,stateWidth,stateHeight;
  private int gap;
  
- private boolean gameOver,showClock;
+ private boolean showClock;
  
  HUD() {
    timer = 0;
@@ -22,23 +22,21 @@ class HUD {
    stateWidth = 50;
    stateHeight = 50;
    gap = 2;
-   gameOver = false;
    showClock = true;
  }
  
  public void timerIncr(){
    
-   if(!gameOver && clock > 999){
-       hud.gameOver(); 
+   if(state == STATE_NORMAL && clock > 999){
+       gameOver(); 
      }
    else {
      timer++;
-     if(!gameOver && timer > 60){
-       
+     if(state == STATE_NORMAL && timer > 60){  
        clock++;
        timer = 0;
      }
-     if(gameOver && timer > 30){
+     if(state == STATE_GAMEOVER && timer > 30){
       showClock = showClock ? false: true; 
       timer = 0;
      }
@@ -54,12 +52,16 @@ class HUD {
    }
    
    //STATE
-   image(IState_BAMF, startXState,startYState,stateWidth,stateHeight);
+   if(state == STATE_NORMAL) {
+     image(IState_BAMF, startXState,startYState,stateWidth,stateHeight);
+   }else {
+     image(IState_GAMEOVER, startXState,startYState,stateWidth,stateHeight);
+   }
    
    
    
    //CLOCK
-   if(!gameOver && showClock){
+   if(state == STATE_NORMAL && showClock){
      stringNum  = nf(clock,3);
      for(int i = 0;i < 3; i++){
        int num = int(stringNum.charAt(i)-48);
@@ -78,10 +80,6 @@ class HUD {
  
  public int getClock() {
    return clock;
- }
- 
- public void gameOver(){
-   gameOver = true;
  }
   
   
