@@ -36,3 +36,19 @@ void render() {
  hud.render(); 
  board.render();
 }
+
+void mousePressed(){
+  if (mouseButton == LEFT) {
+    int indexX = floor((mouseX-board.getStartX()) / 32);
+    int indexY = floor((mouseY-board.getStartY()) / 32);
+    //println("mouseX: " + mouseX + ", mouseY: " + mouseY);
+    //println("x: " + indexX + ", y: " + indexY);
+    if(indexX >= 0 && indexX <= board.getCol() && indexY >=0 && indexY <= board.getRow()){
+      board.clicking(indexX,indexY);  
+    }
+  }
+}
+
+void mouseReleased(){
+  board.clicked();
+}
