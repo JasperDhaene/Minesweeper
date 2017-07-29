@@ -16,7 +16,7 @@ public class Board
   private static final int FLAG = 11;
   private static final int FLAGGEDMINE = 12;
   
-  private static final int FREE = 0;
+  private static final int NOTCLICKED = 0;
   private static final int CLICKING = 1;
   private static final int CLICKED = 2;
   private static final int FLAGGING = 3;
@@ -38,7 +38,7 @@ public class Board
     
     for( int i = 0; i< col; i++) {
       for( int j = 0; j< row; j++) {
-        boardState[i][j] = FREE;
+        boardState[i][j] = NOTCLICKED;
       }
     }
 
@@ -61,7 +61,7 @@ public class Board
       for( int j = 0; j< row; j++) {
         if(state == STATE_NORMAL){
           switch(boardState[i][j]){
-            case FREE: image(IBlock, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+            case NOTCLICKED: image(IBlock, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
             case CLICKING: image(IEmpty, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
             case CLICKED: 
               if(board[i][j] > 0 && board[i][j] < 9) {
@@ -128,6 +128,7 @@ public class Board
   public void clicked(){
     if(isValidClick(clickingX,clickingY)){
       boardState[clickingX][clickingY] = CLICKED;
+      infectBoard(clickingX,clickingY);
       if(board[clickingX][clickingY] == MINE){
         gameOver();  
       }
@@ -146,7 +147,7 @@ public class Board
   }
   
   public void unflag(){
-   boardState[clickingX][clickingY] = FREE; 
+   boardState[clickingX][clickingY] = NOTCLICKED; 
   }
   
   public int getCol(){
@@ -171,6 +172,23 @@ public class Board
   
   public boolean isValidClick(int x,int y){
     return x >= 0 && x < col && y >=0 && y < row; 
+  }
+  
+  private void infectBoard(int x,int y){
+    for( int k = -1; k<2;k++){
+          for(int l = -1;l<2;l++){
+           try {
+             if(boardState[x+k][y+l] == NOTCLICKED && board[x+k][y+l] == EMPTY){
+               boardState[x+k][y+l] = CLICKED;
+               infectBoard(x+k,y+l);
+             }
+             if(boardState[x+k][y+l] == NOTCLICKED && board[x+k][y+l] < 8){
+               boardState[x+k][y+l] = CLICKED;
+               
+             }
+           }catch (ArrayIndexOutOfBoundsException ex){}
+        }
+      }
   }
   
   /*

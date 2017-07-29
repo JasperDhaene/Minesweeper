@@ -47,8 +47,8 @@ class HUD {
    //FLAGS LEFT
    String stringNum  = nf(board.getFlagsLeft(),3);
    for(int i = 0;i < 3; i++){
-         int num = int(stringNum.charAt(i)-48);
-         image(INumbers, startXFlagsLeft+(i*numberWidth),startYFlagsLeft,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
+       int num = int(stringNum.charAt(i)-48);
+       image(INumbers, startXFlagsLeft+(i*numberWidth),startYFlagsLeft,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
    }
    
    //STATE
