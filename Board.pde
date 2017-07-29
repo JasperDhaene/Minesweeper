@@ -24,6 +24,7 @@ public class Board
   private int clickingX,clickingY;
   
   private int flagsLeft;
+  private int amountOfMines;
 
   public Board() {
     
@@ -36,15 +37,10 @@ public class Board
     
     for( int i = 0; i< col; i++) {
       for( int j = 0; j< row; j++) {
-        board[i][j] = MINE;
         boardState[i][j] = FREE;
       }
     }
-    
-    board[0][0] = 0;
-    board[0][1] = 0;
-    board[1][0] = 0;
-    
+
     startX = 30;
     startY = 194;
     imgWidth = 30;
@@ -52,7 +48,10 @@ public class Board
     gap = 2;
     clickingX = -1;
     clickingY = -1;
-    flagsLeft = 10;
+    flagsLeft = 5;
+    amountOfMines = 20;
+    
+    generateBoard();
   }
   
   public void render() {
@@ -67,6 +66,22 @@ public class Board
         }
       }
     }
+  }
+  
+  public void generateBoard() {
+    int minesLeft = amountOfMines;
+    for( int i = 0; i< col; i++) {
+      for( int j = 0; j< row; j++) {
+        if( random(0, 10) > 8 && minesLeft > 0){
+         minesLeft --; 
+         board[i][j] = MINE;
+         println(i + " " + j);
+        }else{
+          board[i][j] = 0;
+        }
+      }
+    }
+    println(minesLeft);
   }
   
   public void clicking(int x,int y){
