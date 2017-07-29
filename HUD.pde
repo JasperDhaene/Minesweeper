@@ -2,8 +2,8 @@ class HUD {
  private int timer;
  private int clock;
  
- private float startX,startY;
- private int numberWidth,numberHeight;
+ private float startXFlagsLeft,startYFlagsLeft,startXState,startYState,startXTimer,startYTimer;
+ private int numberWidth,numberHeight,stateWidth,stateHeight;
  private int gap;
  
  private boolean gameOver,showClock;
@@ -11,10 +11,16 @@ class HUD {
  HUD() {
    timer = 0;
    clock = 997;
-   startX = 32;
-   startY = 112;
+   startXFlagsLeft = 32;
+   startYFlagsLeft = 112;
+   startXState = 260;
+   startYState = 112;
+   startXTimer = 448;
+   startYTimer = 112;
    numberWidth = 26;
    numberHeight = 45;
+   stateWidth = 52;
+   stateHeight = 52;
    gap = 2;
    gameOver = false;
    showClock = true;
@@ -40,17 +46,26 @@ class HUD {
  }
  
  public void render(){
+   //FLAGS LEFT
+   String stringNum  = nf(board.getFlagsLeft(),3);
+   for(int i = 0;i < 3; i++){
+         int num = int(stringNum.charAt(i)-48);
+         image(INumbers, startXFlagsLeft+(i*numberWidth),startYFlagsLeft,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
+       }
+   
+   
+   //CLOCK
    if(!gameOver && showClock){
-     String stringNum  = nf(clock,3);
+     stringNum  = nf(clock,3);
      for(int i = 0;i < 3; i++){
        int num = int(stringNum.charAt(i)-48);
-       image(INumbers, startX+(i*numberWidth),startY,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
+       image(INumbers, startXTimer+(i*numberWidth),startYTimer,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
      }
    }else{
      if(showClock) {
        for(int i = 0;i < 3; i++){
          int num = 9;
-         image(INumbers, startX+(i*numberWidth),startY,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
+         image(INumbers, startXTimer+(i*numberWidth),startYTimer,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
        }
      }
    }

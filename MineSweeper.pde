@@ -47,8 +47,26 @@ void mousePressed(){
       board.clicking(indexX,indexY);  
     }
   }
+  if (mouseButton == RIGHT) {
+    int indexX = floor((mouseX-board.getStartX()) / 32);
+    int indexY = floor((mouseY-board.getStartY()) / 32);
+    //println("mouseX: " + mouseX + ", mouseY: " + mouseY);
+    //println("x: " + indexX + ", y: " + indexY);
+    if(indexX >= 0 && indexX <= board.getCol() && indexY >=0 && indexY <= board.getRow()){
+      board.flagging(indexX,indexY); 
+    }
+  }
 }
 
 void mouseReleased(){
-  board.clicked();
+  if(mouseButton == LEFT){
+    board.clicked(); 
+  }
+  if(mouseButton == RIGHT && board.getFlagsLeft() > 0){
+    board.flagged();
+  }
+  if(mouseButton == RIGHT && board.getFlagsLeft() == 0){
+   board.unflag(); 
+  }
+  
 }

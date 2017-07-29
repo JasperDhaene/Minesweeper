@@ -11,19 +11,23 @@ public class Board
   private int gap;
   
   private static final int BLOCK = 10;
-  private static final int BOMB = 11;
+  private static final int MINE = 11;
   private static final int FLAG = 12;
-  private static final int FLAGBOMB = 13;
+  private static final int FLAGGEDMINE = 13;
   
   private static final int FREE = 0;
   private static final int CLICKING = 1;
   private static final int CLICKED = 2;
+  private static final int FLAGGING = 3;
+  private static final int FLAGGED = 4;
   
   private int clickingX,clickingY;
+  
+  private int flagsLeft;
 
   public Board() {
     
-    imageArray = new PImage[]{IEmpty,null,null,null,null,null,null,null,null,null,IBlock,null,null,null};
+    imageArray = new PImage[]{IEmpty,null,null,null,null,null,null,null,null,null,IBlock,IMine,IFlag,null};
     
     col = 16;
     row = 16;
@@ -32,7 +36,7 @@ public class Board
     
     for( int i = 0; i< col; i++) {
       for( int j = 0; j< row; j++) {
-        board[i][j] = 0;
+        board[i][j] = MINE;
         boardState[i][j] = FREE;
       }
     }
@@ -48,6 +52,7 @@ public class Board
     gap = 2;
     clickingX = -1;
     clickingY = -1;
+    flagsLeft = 10;
   }
   
   public void render() {
@@ -57,6 +62,8 @@ public class Board
           case FREE: image(IBlock, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
           case CLICKING: image(IEmpty, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
           case CLICKED: image(imageArray[board[i][j]], startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+          case FLAGGING: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+          case FLAGGED: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
         }
       }
     }
@@ -70,6 +77,21 @@ public class Board
   
   public void clicked(){
     boardState[clickingX][clickingY] = CLICKED;
+  }
+  
+  public void flagging(int x,int y){
+    boardState[x][y] = FLAGGING;
+    clickingX = x;
+    clickingY = y;
+  }
+  
+  public void flagged(){
+    boardState[clickingX][clickingY] = FLAGGED;
+    flagsLeft--;
+  }
+  
+  public void unflag(){
+   boardState[clickingX][clickingY] = FREE; 
   }
   
   public int getCol(){
@@ -86,6 +108,10 @@ public class Board
   
   public float getStartY() {
    return startY; 
+  }
+  
+  public int getFlagsLeft() {
+   return flagsLeft; 
   }
   
 }
