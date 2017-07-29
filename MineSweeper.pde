@@ -1,4 +1,4 @@
-PImage IBackground,IBlock,IEmpty,IFlag,IMine,INumbers,IQuestion,IQuestion_pressed,IState_BAMF; 
+PImage IBackground,IBlock,IEmpty,IFlag,IMine,INumbers,IMineNumbers,IQuestion,IQuestion_pressed,IState_BAMF; 
 HUD hud;
 Board board;
 
@@ -14,6 +14,7 @@ void setup()
   IQuestion = loadImage("question.png");
   IQuestion_pressed = loadImage("question_pressed.png");
   IState_BAMF = loadImage("state_BAMF.png");
+  IMineNumbers = loadImage("mineNumbers.png");
   hud = new HUD();
   board = new Board();
   

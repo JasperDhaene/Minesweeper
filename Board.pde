@@ -8,12 +8,13 @@ public class Board
   private int imgWidth,imgHeight;
   private PImage[] imageArray;
    
-  private int gap;
+  private int gap,mineNumberGap;
   
-  private static final int BLOCK = 10;
-  private static final int MINE = 11;
-  private static final int FLAG = 12;
-  private static final int FLAGGEDMINE = 13;
+  private static final int EMPTY = 0;
+  private static final int BLOCK = 9;
+  private static final int MINE = 10;
+  private static final int FLAG = 11;
+  private static final int FLAGGEDMINE = 12;
   
   private static final int FREE = 0;
   private static final int CLICKING = 1;
@@ -28,7 +29,7 @@ public class Board
 
   public Board() {
     
-    imageArray = new PImage[]{IEmpty,null,null,null,null,null,null,null,null,null,IBlock,IMine,IFlag,null};
+    imageArray = new PImage[]{IEmpty,null,null,null,null,null,null,null,null,IBlock,IMine,IFlag,null};
     
     col = 16;
     row = 16;
@@ -46,6 +47,7 @@ public class Board
     imgWidth = 30;
     imgHeight = 30;
     gap = 2;
+    mineNumberGap = 4;
     clickingX = -1;
     clickingY = -1;
     flagsLeft = 5;
@@ -60,7 +62,14 @@ public class Board
         switch(boardState[i][j]){
           case FREE: image(IBlock, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
           case CLICKING: image(IEmpty, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
-          case CLICKED: image(imageArray[board[i][j]], startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
+          case CLICKED: 
+            if(board[i][j] > 0 && board[i][j] < 9) {
+              int number = board[i][j] - 1;
+              image(IMineNumbers, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight, number * (imgWidth + mineNumberGap),0, (number * (imgWidth+mineNumberGap)) + imgWidth , imgHeight ); 
+            } else {
+              println(board[i][j]);
+              image(imageArray[board[i][j]], startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight);
+            } break;  
           case FLAGGING: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
           case FLAGGED: image(IFlag, startX + i * (imgWidth + gap),startY + j * (imgHeight + gap),imgWidth,imgHeight); break;  
         }
@@ -70,18 +79,34 @@ public class Board
   
   public void generateBoard() {
     int minesLeft = amountOfMines;
+    
+    //init empty board
+    for( int i = 0; i< col; i++) {
+      for( int j = 0; j< row; j++) {
+        board[i][j] = EMPTY;
+      }
+    }
+    
     for( int i = 0; i< col; i++) {
       for( int j = 0; j< row; j++) {
         if( random(0, 10) > 8 && minesLeft > 0){
          minesLeft --; 
          board[i][j] = MINE;
-         println(i + " " + j);
-        }else{
-          board[i][j] = 0;
+         //println(i + " " + j);
+         
+         for( int k = -1; k<2;k++){
+          for(int l = -1;l<2;l++){
+           try {
+             if(board[i+k][j+l] != MINE){
+               board[i+k][j+l]++;
+             }
+           }catch (ArrayIndexOutOfBoundsException ex){}
+          }
+         }
         }
       }
     }
-    println(minesLeft);
+    
   }
   
   public void clicking(int x,int y){
@@ -135,4 +160,37 @@ public class Board
     return x >= 0 && x < col && y >=0 && y < row; 
   }
   
+  /*
+  private int checkForMines(int x,int y) {
+    int mineCount = 0;
+    //RIGHT
+    if(x >= 0 && x < col-1){
+      mineCount += board[x+1][y] == MINE ? 1 : 0;
+    }
+    //LEFT
+    if(x > 0 && x < col){
+      mineCount += board[x-1][y] == MINE ? 1 : 0;
+    }
+    
+    //DOWN
+    if(y >= 0 && y < row-1){
+      mineCount += board[x][y+1] == MINE ? 1 : 0;
+    }
+    //UP
+    if(x > 0 && y < row-1){
+      mineCount += board[x][y-1] == MINE ? 1 : 0;
+    }
+    
+    //UPPERLEFT
+    if(x > 0 && y > 0 && x < col && y < row){
+      mineCount += board[x-1][y-1] == MINE ? 1 : 0;
+    }
+    //UPPERRIGHT
+    if(x >= 0 && y > 0 && x < col-1 && y < row-1){
+      mineCount += board[x-1][y-1] == MINE ? 1 : 0;
+    }
+    
+    return mineCount;
+  }
+*/  
 }
