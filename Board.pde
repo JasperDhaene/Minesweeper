@@ -91,7 +91,9 @@ public class Board
   }
   
   public void clicked(){
-    boardState[clickingX][clickingY] = CLICKED;
+    if(isValidClick(clickingX,clickingY)){
+      boardState[clickingX][clickingY] = CLICKED;
+    }
   }
   
   public void flagging(int x,int y){
@@ -127,6 +129,10 @@ public class Board
   
   public int getFlagsLeft() {
    return flagsLeft; 
+  }
+  
+  public boolean isValidClick(int x,int y){
+    return x >= 0 && x < col && y >=0 && y < row; 
   }
   
 }

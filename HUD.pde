@@ -19,8 +19,8 @@ class HUD {
    startYTimer = 112;
    numberWidth = 26;
    numberHeight = 45;
-   stateWidth = 52;
-   stateHeight = 52;
+   stateWidth = 50;
+   stateHeight = 50;
    gap = 2;
    gameOver = false;
    showClock = true;
@@ -51,7 +51,11 @@ class HUD {
    for(int i = 0;i < 3; i++){
          int num = int(stringNum.charAt(i)-48);
          image(INumbers, startXFlagsLeft+(i*numberWidth),startYFlagsLeft,numberWidth,numberHeight,num *(numberWidth+gap),0,num *(numberWidth+gap)+numberWidth,numberHeight);
-       }
+   }
+   
+   //STATE
+   image(IState_BAMF, startXState,startYState,stateWidth,stateHeight);
+   
    
    
    //CLOCK

@@ -1,4 +1,4 @@
-PImage IBackground,IBlock,IEmpty,IFlag,IMine,INumbers,IQuestion,IQuestion_pressed; 
+PImage IBackground,IBlock,IEmpty,IFlag,IMine,INumbers,IQuestion,IQuestion_pressed,IState_BAMF; 
 HUD hud;
 Board board;
 
@@ -13,6 +13,7 @@ void setup()
   INumbers = loadImage("numbers.png");
   IQuestion = loadImage("question.png");
   IQuestion_pressed = loadImage("question_pressed.png");
+  IState_BAMF = loadImage("state_BAMF.png");
   hud = new HUD();
   board = new Board();
   
@@ -43,7 +44,7 @@ void mousePressed(){
     int indexY = floor((mouseY-board.getStartY()) / 32);
     //println("mouseX: " + mouseX + ", mouseY: " + mouseY);
     //println("x: " + indexX + ", y: " + indexY);
-    if(indexX >= 0 && indexX <= board.getCol() && indexY >=0 && indexY <= board.getRow()){
+    if(board.isValidClick(indexX,indexY)){
       board.clicking(indexX,indexY);  
     }
   }
@@ -52,7 +53,7 @@ void mousePressed(){
     int indexY = floor((mouseY-board.getStartY()) / 32);
     //println("mouseX: " + mouseX + ", mouseY: " + mouseY);
     //println("x: " + indexX + ", y: " + indexY);
-    if(indexX >= 0 && indexX <= board.getCol() && indexY >=0 && indexY <= board.getRow()){
+    if(board.isValidClick(indexX,indexY)){
       board.flagging(indexX,indexY); 
     }
   }
