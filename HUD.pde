@@ -10,7 +10,7 @@ class HUD {
  
  HUD() {
    timer = 0;
-   clock = 997;
+   clock = 0;
    startXFlagsLeft = 32;
    startYFlagsLeft = 112;
    startXState = 260;
@@ -80,6 +80,19 @@ class HUD {
  
  public int getClock() {
    return clock;
+ }
+ 
+ public float getStartXState(){
+   return startXState;
+ }
+ public float getStartYState(){
+   return startYState;
+ }
+ public int getStateWidth(){
+   return stateWidth;
+ }
+ public int getStateHeight(){
+   return stateHeight;
  }
   
   

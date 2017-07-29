@@ -20,9 +20,8 @@ void setup()
   IState_BAMF = loadImage("state_BAMF.png");
   IState_GAMEOVER = loadImage("state_dead.png");
   IMineNumbers = loadImage("mineNumbers.png");
-  hud = new HUD();
-  board = new Board();
-  state = STATE_NORMAL;
+  startNewGame();
+  
 }
 
 
@@ -46,12 +45,18 @@ void render() {
 
 void mousePressed(){
   if (mouseButton == LEFT) {
+    //BOARD
     int indexX = floor((mouseX-board.getStartX()) / 32);
     int indexY = floor((mouseY-board.getStartY()) / 32);
     //println("mouseX: " + mouseX + ", mouseY: " + mouseY);
     //println("x: " + indexX + ", y: " + indexY);
     if(board.isValidClick(indexX,indexY)){
       board.clicking(indexX,indexY);  
+    }
+    
+    //HUD
+    if(mouseX>hud.getStartXState() && mouseX < hud.getStartXState() + hud.getStateWidth() && mouseY > hud.getStartYState() && mouseY < hud.getStartYState() + hud.getStateHeight()){
+      startNewGame();
     }
   }
   if (mouseButton == RIGHT) {
@@ -80,4 +85,10 @@ void mouseReleased(){
 
 void gameOver() {
   state = STATE_GAMEOVER;
+}
+
+void startNewGame(){
+  hud = new HUD();
+  board = new Board();
+  state = STATE_NORMAL;
 }
