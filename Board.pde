@@ -50,8 +50,8 @@ public class Board
     mineNumberGap = 4;
     clickingX = -1;
     clickingY = -1;
-    flagsLeft = 15;
-    amountOfMines = 15;
+    //flagsLeft = 20;
+    amountOfMines = 20;
     
     generateBoard();
   }
@@ -99,7 +99,7 @@ public class Board
     
     for( int i = 0; i< col; i++) {
       for( int j = 0; j< row; j++) {
-        if( random(0, 100) > 95 && minesLeft > 0){
+        if( random(0, 100) > 90 && minesLeft > 0){
          minesLeft --; 
          board[i][j] = MINE;
          //println(i + " " + j);
@@ -116,7 +116,7 @@ public class Board
         }
       }
     }
-    
+    flagsLeft = amountOfMines - minesLeft;
   }
   
   public void clicking(int x,int y){
